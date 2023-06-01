@@ -9,7 +9,7 @@ import { Ingredient } from 'src/app/shared/ingredients.model';
 export class ShoppingEditComponent {
   @ViewChild('nameInput', { static: false }) nameInputRef: ElementRef;
   @ViewChild('amountInput', { static: false }) amountInputRef: ElementRef;
-  @Output() ingredientAdded = new EventEmitter<Ingredient>();// listen from outside
+  @Output() ingredientAdded = new EventEmitter<Ingredient>();// listen from outside, 
 
   onAddItem() {
     const ingredientName = this.nameInputRef.nativeElement.value;
