@@ -1,5 +1,6 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Recipe } from '../recipe.model';
+import { RecipeService } from '../recipe.service';
 
 @Component({
   selector: 'app-recipe-list',
@@ -8,32 +9,11 @@ import { Recipe } from '../recipe.model';
 })
 export class RecipeListComponent implements OnInit {
   ngOnInit(): void {
-    throw new Error('Method not implemented.');
+    this.recipes = this.recipeService.getRecipes();
   }
+  constructor(private recipeService: RecipeService) {}
 
-  @Output() recipeWasSelected = new EventEmitter<Recipe>();
 
+  recipes: Recipe[];
 
-  recipes: Recipe[] = [
-    new Recipe(
-      'A test Recipe',
-      'This is simply test',
-      'https://assets.bonappetit.com/photos/61b775620fb3fcc4cbf036c1/3:2/w_3000,h_2000,c_limit/20211208%20Spaghetti%20Squash%20with%20Tomato%20Sauce%20and%20Mozarella%20LEDE.jpg'
-    ),
-
-    new Recipe(
-      'A second test Recipe',
-      'This is second simply test',
-      'https://assets.bonappetit.com/photos/61b775620fb3fcc4cbf036c1/3:2/w_3000,h_2000,c_limit/20211208%20Spaghetti%20Squash%20with%20Tomato%20Sauce%20and%20Mozarella%20LEDE.jpg'
-    ),
-
-    new Recipe(
-      'A third test Recipe',
-      'This is third simply test',
-      'https://assets.bonappetit.com/photos/61b775620fb3fcc4cbf036c1/3:2/w_3000,h_2000,c_limit/20211208%20Spaghetti%20Squash%20with%20Tomato%20Sauce%20and%20Mozarella%20LEDE.jpg'
-    ),
-  ];
-  onRecipeSelected(recipe: Recipe) {
-    this.recipeWasSelected.emit(recipe);
-  }
 }
