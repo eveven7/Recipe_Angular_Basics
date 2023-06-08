@@ -6,12 +6,15 @@ export class ShoppingService {
   // ingredientsChanged = new EventEmitter<Ingredient[]>();
 
   ingredientsChanged = new Subject<Ingredient[]>();
-  startedEditing = new Subject<number>();//listening to shopiing edit component
+  startedEditing = new Subject<number>(); //listening to shopiing edit component
   private ingredients: Ingredient[] = [
     new Ingredient('Potatoes', 8),
     new Ingredient('Tomatoes', 3),
   ];
 
+  getIngredient(index) {
+    return this.ingredients[index];
+  }
   getIngredients() {
     return this.ingredients.slice();
   }
