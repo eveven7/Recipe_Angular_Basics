@@ -6,7 +6,7 @@ export class ShoppingService {
   // ingredientsChanged = new EventEmitter<Ingredient[]>();
 
   ingredientsChanged = new Subject<Ingredient[]>();
-
+  startedEditing = new Subject<number>();//listening to shopiing edit component
   private ingredients: Ingredient[] = [
     new Ingredient('Potatoes', 8),
     new Ingredient('Tomatoes', 3),
@@ -22,6 +22,5 @@ export class ShoppingService {
   addIngredients(ingredients: Ingredient[]) {
     this.ingredients.push(...ingredients); // spread operator , array in to a list
     this.ingredientsChanged.next(this.ingredients.slice());
-
   }
 }
