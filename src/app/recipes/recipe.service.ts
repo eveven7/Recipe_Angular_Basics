@@ -9,6 +9,8 @@ export class RecipeService {
   // recipeSeleced = new EventEmitter<Recipe>();
   recipeSeleced = new Subject<Recipe>();
 
+  recipesChanged = new Subject<Recipe[]>();
+
   private recipes: Recipe[] = [
     new Recipe(
       'A test Recipe',
@@ -53,6 +55,17 @@ export class RecipeService {
     this.shoppingService.addIngredients(ingredients);
   }
   getRecipe(index: number) {
-    return this.recipes.slice()[index];//slice - copy of the array
+    return this.recipes.slice()[index]; //slice - copy of the array
+  }
+
+  addRecipe(recipe: Recipe) {
+    this.recipes.push(recipe);
+    this.recipesChanged.next(this.recipes.slice());
+  }
+
+  updateRecipe(index: number, newRecipe: Recipe) {
+    this.recipes[index] = newRecipe;
+    this.recipesChanged.next(this.recipes.slice());
+
   }
 }
