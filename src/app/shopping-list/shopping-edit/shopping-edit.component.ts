@@ -18,7 +18,7 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./shopping-edit.component.css'],
 })
 export class ShoppingEditComponent implements OnInit, OnDestroy {
-  @ViewChild('f', {static:false}) shopForm:NgForm
+  @ViewChild('f', { static: false }) shopForm: NgForm;
 
   subscription: Subscription;
   editMode = false;
@@ -41,16 +41,33 @@ export class ShoppingEditComponent implements OnInit, OnDestroy {
         this.editedItem = this.shoppingService.getIngredient(index);
         this.shopForm.setValue({
           name: this.editedItem.name,
-          amount: this.editedItem.amount
-        })
+          amount: this.editedItem.amount,
+        });
       }
     );
   }
   onAddItem(form: NgForm) {
-    // const ingredientName = this.nameInputRef.nativeElement.value;
+    // const ingredientName = tshis.nameInputRef.nativeElement.value;
     // const ingredientAmount = this.amountInputRef.nativeElement.value;
     const value = form.value;
     const newIngredient = new Ingredient(value.name, value.amount);
-    this.shoppingService.addIngredient(newIngredient);
+    if (this.editMode) {
+      this.shoppingService.updateIngredient(
+        this.editedItemIndex,
+        newIngredient
+      );
+    } else {
+      this.shoppingService.addIngredient(newIngredient);
+    }
+    this.editMode = false;
+  }
+
+  onClear() {
+    this.shopForm.reset();
+    this.editMode = false;
+  }
+  onDelete(){
+    this.shoppingService.deleteIngrediemt(this.editedItemIndex)
+    this.onClear()
   }
 }
