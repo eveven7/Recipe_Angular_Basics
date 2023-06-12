@@ -27,6 +27,8 @@ const app = initializeApp(firebaseConfig);
 export class AuthComponent {
   isLoginMode = true;
   isLoading = false;
+  error:string = null;
+
   constructor(private authService: AuthService) {}
   onSwitchMode() {
     this.isLoginMode = !this.isLoginMode;
@@ -49,6 +51,7 @@ export class AuthComponent {
         },
         (error) => {
           console.log(error.error);
+          this.error = 'an error occuried'
           this.isLoading = false;
         }
       );
