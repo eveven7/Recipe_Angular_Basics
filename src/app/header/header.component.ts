@@ -23,8 +23,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.userSub = this.authService.user.subscribe((user) => {
       this.isAuthenticated = !user ? false : true;
-      console.log(!user)
-      console.log(!!user)
+      console.log(!user);
+      console.log(!!user);
     });
   }
   @Output() featuredSelected = new EventEmitter<string>();
@@ -33,4 +33,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
   // onSelect(feature:string){
   // this.featuredSelected.emit(feature);
   // }
+
+  onLogout() {
+    this.authService.logout();
+  }
 }
