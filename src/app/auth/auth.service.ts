@@ -18,6 +18,7 @@ export interface AuthResponseData {
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
+  private tokenExpirationTimer: any;
   // user = new Subject<User>(); //where user changes, reactively updating user changes
   user = new BehaviorSubject<User>(null); //get acces to the currenty active user
 
@@ -78,12 +79,14 @@ export class AuthService {
     const user = new User(email, userId, token, expDate);
 
     this.user.next(user);
+
+    this.autoLogout(expiresIn * 1000);
     localStorage.setItem('userData', JSON.stringify(user));
     console.log(
       'User data stored in localStorage:',
       localStorage.getItem('userData')
     );
-  } //emit user because of Subject}
+  }
   autoLogin() {
     const userData: {
       email: string;
@@ -102,12 +105,24 @@ export class AuthService {
     );
     if (loadedUser.token) {
       this.user.next(loadedUser);
-      
+      const expirationDuration =
+        new Date(userData._tokenExpDate).getTime() - new Date().getTime();
+      this.autoLogout(expirationDuration);
     }
   }
   logout() {
-    this.router.navigate(['/auth']);
     this.user.next(null);
+    this.router.navigate(['/auth']);
+    localStorage.removeItem('userData');
+    if (this.tokenExpirationTimer) {
+      clearTimeout(this.tokenExpirationTimer);
+    }
+    this.tokenExpirationTimer = null;
+  }
+  autoLogout(expirationDuration: number) {
+    this.tokenExpirationTimer = setTimeout(() => {
+      this.logout;
+    }, expirationDuration);
   }
   private handleError(errorRes: HttpErrorResponse) {
     let errorMessage = 'An unknown error occurred!';
