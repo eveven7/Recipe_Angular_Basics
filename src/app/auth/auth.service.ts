@@ -4,6 +4,7 @@ import { catchError, reduce, tap } from 'rxjs/operators';
 import { BehaviorSubject, Subject, throwError } from 'rxjs';
 import { User } from './user.model';
 import { Router } from '@angular/router';
+import { LOCATION_INITIALIZED } from '@angular/common';
 
 export interface AuthResponseData {
   kind: string;
@@ -77,10 +78,35 @@ export class AuthService {
     const user = new User(email, userId, token, expDate);
 
     this.user.next(user);
+    localStorage.setItem('userData', JSON.stringify(user));
+    console.log(
+      'User data stored in localStorage:',
+      localStorage.getItem('userData')
+    );
   } //emit user because of Subject}
-
+  autoLogin() {
+    const userData: {
+      email: string;
+      id: string;
+      _token: string;
+      _tokenExpDate: string;
+    } = JSON.parse(localStorage.getItem('userData'));
+    if (!userData) {
+      return;
+    }
+    const loadedUser = new User(
+      userData.email,
+      userData.id,
+      userData._token,
+      new Date(userData._tokenExpDate)
+    );
+    if (loadedUser.token) {
+      this.user.next(loadedUser);
+      
+    }
+  }
   logout() {
-    this.router.navigate(['/auth'])
+    this.router.navigate(['/auth']);
     this.user.next(null);
   }
   private handleError(errorRes: HttpErrorResponse) {
