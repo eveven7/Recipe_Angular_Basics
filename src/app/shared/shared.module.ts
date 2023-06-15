@@ -23,4 +23,8 @@ import { LoggingService } from '../logging.service';
   ],
   providers:[LoggingService]
 })
-export class SharedModule {}
+export class SharedModule {
+  static forRoot(arg0: { shoppingList: (state: import("../shopping-list/store/shopping-list.reducer").State, action: import("@ngrx/store").Action) => import("../shopping-list/store/shopping-list.reducer").State; }): any[] | import("@angular/core").Type<any> | import("@angular/core").ModuleWithProviders<{}> {
+    throw new Error('Method not implemented.');
+  }
+}
