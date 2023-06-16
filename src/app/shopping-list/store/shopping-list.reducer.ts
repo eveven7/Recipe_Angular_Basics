@@ -23,5 +23,24 @@ const _shoppingListReducer = createReducer(
   on(ShoppingListActions.addIngredient, (state, action) => ({
     ...state,
     ingredients: state.ingredients.concat(action.ingredient),
+  })),
+
+  on(ShoppingListActions.addIngredients, (state, action) => ({
+    ...state,
+    ingredients: state.ingredients.concat(...action.ingredients),
+  })),
+  on(ShoppingListActions.updateIngredient, (state, action) => ({
+    ...state,
+    editIndex: -1,
+    ingredients: state.ingredients.map((ingredient, index) =>
+      index === state.editIndex ? { ...action.ingredient } : ingredient
+    ),
+  })),
+  on(ShoppingListActions.deleteIngredient, (state,action) => ({
+    ...state,
+    editIndex: -1,
+    ingredients: state.ingredients.filter(
+      (_, index) => index !== action.index
+    ),
   }))
 );

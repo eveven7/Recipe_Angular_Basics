@@ -11,6 +11,9 @@ import { Ingredient } from 'src/app/shared/ingredients.model';
 import { ShoppingService } from '../shopping.service';
 import { NgForm } from '@angular/forms';
 import { Subscription } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { addIngredient } from '../store/shopping-list.actions';
+import * as ShoppingListActions from '../store/shopping-list.actions'
 
 @Component({
   selector: 'app-shopping-edit',
@@ -29,7 +32,10 @@ export class ShoppingEditComponent implements OnInit, OnDestroy {
   // @ViewChild('amountInput', { static: false }) amountInputRef: ElementRef;
   // @Output() ingredientAdded = new EventEmitter<Ingredient>();// listen from outside,
 
-  constructor(private shoppingService: ShoppingService) {}
+  constructor(
+    private shoppingService: ShoppingService,
+    private store: Store<{ shoppingList: { ingredients: Ingredient[] } }>
+  ) {}
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
@@ -52,12 +58,13 @@ export class ShoppingEditComponent implements OnInit, OnDestroy {
     const value = form.value;
     const newIngredient = new Ingredient(value.name, value.amount);
     if (this.editMode) {
-      this.shoppingService.updateIngredient(
-        this.editedItemIndex,
-        newIngredient
-      );
+      // this.shoppingService.updateIngredient(
+      //   this.editedItemIndex,
+      //   newIngredient
+      // );
+      this.store.dispatch(ShoppingListActions.updateIngredient({ingredient: newIngredient}))
     } else {
-      this.shoppingService.addIngredient(newIngredient);
+      this.store.dispatch( ShoppingListActions.addIngredient({ingredient: newIngredient}));
     }
     this.editMode = false;
   }
@@ -66,8 +73,9 @@ export class ShoppingEditComponent implements OnInit, OnDestroy {
     this.shopForm.reset();
     this.editMode = false;
   }
-  onDelete(){
-    this.shoppingService.deleteIngrediemt(this.editedItemIndex)
-    this.onClear()
+  onDelete() {
+    // this.shoppingService.deleteIngrediemt(this.editedItemIndex);
+    this.store.dispatch(ShoppingListActions.deleteIngredient({index: this.editedItemIndex}));
+    this.onClear();
   }
 }
