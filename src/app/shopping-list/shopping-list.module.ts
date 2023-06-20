@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { FormsModule} from '@angular/forms';
+import { FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { ShoppingListComponent } from './shopping-list.component';
 import { ShoppingEditComponent } from './shopping-edit/shopping-edit.component';
 import { SharedModule } from '../shared/shared.module';
@@ -14,7 +14,7 @@ import { LoggingService } from '../logging.service';
       { path: '', component: ShoppingListComponent },
     ]),
     FormsModule,
-    SharedModule,CommonModule
+    SharedModule,CommonModule, ReactiveFormsModule
   ],
   // providers: [LoggingService]// lazy loading module
 })
