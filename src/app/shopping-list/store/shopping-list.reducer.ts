@@ -28,17 +28,23 @@ export const shoppingListReducer = createReducer(
     ingredients: state.ingredients.concat(...action.ingredients),
   })),
 
-  on(ShoppingListActions.deleteIngredient, (state, action) => ({
-    ...state,
-    editIndex: -1,
-    ingredients: state.ingredients.filter((_, index) => index !== action.index),
-  })),
+  on(ShoppingListActions.deleteIngredient, (state, action) => {
+    const ingredients = state.ingredients.filter(
+      (item) => item !== state.editedItem
+    );
+    return {
+      ...state,
+      editIndex: -1,
+      ingredients: ingredients,
+    };
+  }),
+
   on(ShoppingListActions.updateIngredient, (state, action) => ({
     ...state,
     // editIndex: -1,
     ingredients: state.ingredients.map((ingredient, index) =>
-      index === state.editIndex  ? { ...action.ingredient } : ingredient
-    ),//edit index matchinti su esamu ingredientu ir ji pakeisti
+      index === state.editIndex ? { ...action.ingredient } : ingredient
+    ), //edit index matchinti su esamu ingredientu ir ji pakeisti
   })),
   on(ShoppingListActions.startEdit, (state, action) => ({
     ...state,

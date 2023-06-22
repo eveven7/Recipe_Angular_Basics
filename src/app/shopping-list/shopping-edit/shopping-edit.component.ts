@@ -61,7 +61,6 @@ export class ShoppingEditComponent implements OnInit, OnDestroy, OnChanges {
   onAddItem() {
     const itemName = this.name.value;
     const itemAmount = this.amount.value;
-
     if (this.editMode) {
       if (this.editedItem && this.editedItem.name !== itemName) {
         this.store.dispatch(
@@ -88,18 +87,21 @@ export class ShoppingEditComponent implements OnInit, OnDestroy, OnChanges {
     this.onClear();
   }
 
-
   onClear() {
     this.shopForm.reset();
     this.editMode = false;
     this.store.dispatch(ShoppingListActions.stopEdit());
   }
   onDelete() {
-    this.store.dispatch(
-      ShoppingListActions.deleteIngredient({ index: this.editedItemIndex })
-    );
+    if (this.editMode && this.editedItem) {
+      this.store.dispatch(
+        ShoppingListActions.deleteIngredient({ ingredient: this.editedItem })
+      );
+    }
+
     this.onClear();
   }
+
   ngOnChanges(changes: SimpleChanges): void {
     if ('editedItem' in changes) {
       if (this.editedItem) {

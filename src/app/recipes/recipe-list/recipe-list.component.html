@@ -6,8 +6,8 @@
 
 <div class="row">
   <div class="col-xs-12">
-    <app-recipe-item
-      *ngFor="let recipeEL of recipes; let i = index"
+    <app-recipe-item (recipe)="recipe" (click)="addRecipe(i) "
+      *ngFor="let recipeEL of recipes$| async; let i = index"
       [recipe]="recipeEL"
       [index]="i"
     ></app-recipe-item>

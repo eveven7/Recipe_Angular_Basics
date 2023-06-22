@@ -4,6 +4,10 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 import { RecipeService } from '../recipe.service';
 import { Ingredient } from 'src/app/shared/ingredients.model';
 import { Recipe } from '../recipe.model';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+import { deleteRecipe } from '../store/recipe.actions';
+import * as RecipesAction from '../store/recipe.actions';
 
 @Component({
   selector: 'app-recipe-edit',
@@ -14,11 +18,14 @@ export class RecipeEditComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private recipeService: RecipeService,
-    private router: Router
+    private router: Router,
+    private store: Store
   ) {}
   recipeForm: FormGroup;
   id: number;
   editMode = false;
+  recipes$: Observable<Recipe[]>;
+  editedItem: Recipe | undefined;
 
   ngOnInit(): void {
     this.route.params.subscribe((params: Params) => {
@@ -70,10 +77,13 @@ export class RecipeEditComponent implements OnInit {
     );
     // console.log(this.recipeForm);
     if (this.editMode) {
-      this.recipeService.updateRecipe(this.id, newRecipe);
+      this.store.dispatch(
+        RecipesAction.updateRecipe({ index: this.id, recipe: newRecipe })
+      );
     } else {
-      this.recipeService.addRecipe(newRecipe);
-    }
+      this.store.dispatch(
+        RecipesAction.addRecipe({  recipe: newRecipe })
+      );    }
     this.onCancel();
   }
 
@@ -97,8 +107,7 @@ export class RecipeEditComponent implements OnInit {
     this.router.navigate(['../'], { relativeTo: this.route });
   }
   onDeleteIngredient(index: number) {
-    (<FormArray>this.recipeForm.get('ingredients')).removeAt(index);
-    // (<FormArray>this.recipeForm.get('ingredients')).clear();
-
+ 
+    this.store.dispatch(deleteRecipe({ recipe: this.editedItem }));
   }
 }

@@ -43,12 +43,7 @@ export class ShoppingListComponent implements OnDestroy, OnInit {
     this.ingredients$ = this.store
       .select(selectIngredients)
       .pipe(tap((data) => console.log('component: ' + data)));
-    // this.ingredients = this.shoppingService.getIngredients();
-    // this.igCHangeSub = this.shoppingService.ingredientsChanged.subscribe(
-    //   (ingredients: Ingredient[]) => {
-    //     this.ingredients = ingredients;
-    //   }
-    // );
+   
     this.logService.printLog('hello from shopping list');
   }
 
