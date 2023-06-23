@@ -17,9 +17,9 @@ export class RecipesComponent implements OnInit {
 
   }
   onRecipeSelected(recipe: Recipe) {
-    console.log('parent',recipe);
+    // console.log('parent',recipe);
     this.selectedRecipe = recipe
-    console.log(this.selectedRecipe, "xdlol");
+    // console.log(this.selectedRecipe, "xdlol");
 
 
   }

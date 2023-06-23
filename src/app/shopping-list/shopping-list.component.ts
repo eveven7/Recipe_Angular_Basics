@@ -11,7 +11,7 @@ import {
   selectIngredients,
   shoppingListSelectors,
 } from './store/shopping-list.selector';
-import { tap } from 'rxjs/operators';
+import { take, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-shopping-list',
@@ -27,7 +27,6 @@ export class ShoppingListComponent implements OnDestroy, OnInit {
   constructor(
     private shoppingService: ShoppingService,
     private logService: LoggingService,
-
     private store: Store
   ) {}
   ngOnDestroy(): void {
@@ -43,13 +42,13 @@ export class ShoppingListComponent implements OnDestroy, OnInit {
     this.ingredients$ = this.store
       .select(selectIngredients)
       .pipe(tap((data) => console.log('component: ' + data)));
-   
+
     this.logService.printLog('hello from shopping list');
   }
 
   onEditItem(index: number) {
     // this.shoppingService.startedEditing.next(index);
-
+  
     this.editMode = true;
     this.store.dispatch(ShoppingListActions.startEdit({ index }));
     console.log('index', index);

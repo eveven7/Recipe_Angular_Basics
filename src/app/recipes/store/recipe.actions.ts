@@ -15,7 +15,7 @@ export const selectOneRecipe = createAction(
 );
 export const updateRecipe = createAction(
   '[Recipe List] Update Recipe',
-  props<{ index: number; recipe: Recipe }>()
+  props<{ recipe: Recipe }>()
 );
 
 export const deleteRecipe = createAction(

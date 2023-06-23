@@ -20,13 +20,12 @@ const routes: Routes = [
         component: RecipeEditComponent,
       },
       {
+        path: ':name/edit',
+        component: RecipeEditComponent,
+      },
+      {
         path: ':id',
         component: RecipeDetailComponent,
-      },
-
-      {
-        path: ':id/edit',
-        component: RecipeEditComponent,
       },
     ],
   },

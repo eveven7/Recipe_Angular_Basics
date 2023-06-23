@@ -19,7 +19,6 @@ import { RECIPES } from './recipes/store/recipe.selector';
 import { recipeListReducer } from './recipes/store/recipe.reducer';
 import { RecipesModule } from './recipes/recipes.module';
 import { EffectsModule } from '@ngrx/effects';
-import { Store1Effects } from './shopping-list/store/shopping-list.effects';
 
 @NgModule({
   declarations: [AppComponent, HeaderComponent],
@@ -36,7 +35,7 @@ import { Store1Effects } from './shopping-list/store/shopping-list.effects';
       [AUTH]: authReducer,
       [RECIPES]: recipeListReducer,
     }),
-    EffectsModule.forRoot([Store1Effects]),
+    // EffectsModule.forRoot([Store1Effects]),
 
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() }),
   ],

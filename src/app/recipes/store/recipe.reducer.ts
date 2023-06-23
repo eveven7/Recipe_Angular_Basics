@@ -12,7 +12,6 @@ export interface State {
 const initialState: State = {
   recipes: [
     new Recipe(
-
       'A test Recipe',
       'This is simply test',
       'https://assets.bonappetit.com/photos/61b775620fb3fcc4cbf036c1/3:2/w_3000,h_2000,c_limit/20211208%20Spaghetti%20Squash%20with%20Tomato%20Sauce%20and%20Mozarella%20LEDE.jpg',
@@ -24,7 +23,6 @@ const initialState: State = {
     ),
 
     new Recipe(
-
       'A second test Recipe',
       'This is second simply test',
       'https://assets.bonappetit.com/photos/61b775620fb3fcc4cbf036c1/3:2/w_3000,h_2000,c_limit/20211208%20Spaghetti%20Squash%20with%20Tomato%20Sauce%20and%20Mozarella%20LEDE.jpg',
@@ -70,13 +68,12 @@ export const recipeListReducer = createReducer(
       editIndex: -1,
       recipe: recipe,
     };
-  }),  
+  }),
 
   on(RecipesAction.updateRecipe, (state, action) => ({
     ...state,
-    // editIndex: -1,
-    recipe: state.recipes.map((recipe, index) =>
-      index === state.editIndex ? { ...action.recipe } : recipe
-    ), //edit index matchinti su esamu ingredientu ir ji pakeisti
+    recipes: state.recipes.filter((recipe) => {
+      recipe.name == state.editedItem.name;
+    }),
   }))
 );
